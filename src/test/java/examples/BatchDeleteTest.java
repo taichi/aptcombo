@@ -2,28 +2,49 @@ package examples;
 
 import java.util.List;
 
-import org.junit.Rule;
+import javax.inject.Inject;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import dagger.Module;
+import dagger.ObjectGraph;
+import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
-import examples.dao.EmployeeDaoImpl;
 import examples.entity.Employee;
 
+@Module(injects = BatchDeleteTest.class, includes = DaoModule.class)
 public class BatchDeleteTest {
 
-    @Rule
-    public final DbResource dbResource = new DbResource();
+	@Inject
+	EmployeeDao dao;
 
-    private final EmployeeDao dao = new EmployeeDaoImpl();
+	@Inject
+	Config config;
 
-    @Test
-    public void testBatchDelete() throws Exception {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
+	@Inject
+	DbResource resource;
 
-        tm.required(() -> {
-            List<Employee> list = dao.selectAll();
-            dao.batchDelete(list);
-        });
-    }
+	@Before
+	public void setUp() {
+		ObjectGraph.create(this).inject(this);
+		resource.before();
+	}
+
+	@After
+	public void tearDown() {
+		resource.after();
+	}
+
+	@Test
+	public void testBatchDelete() throws Exception {
+		TransactionManager tm = config.getTransactionManager();
+		tm.required(() -> {
+			List<Employee> list = dao.selectAll();
+			dao.batchDelete(list);
+		});
+	}
 }

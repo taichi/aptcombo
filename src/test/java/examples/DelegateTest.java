@@ -2,27 +2,49 @@ package examples;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Rule;
+import javax.inject.Inject;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import dagger.Module;
+import dagger.ObjectGraph;
+import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
-import examples.dao.EmployeeDaoImpl;
 
+@Module(injects = DelegateTest.class, includes = DaoModule.class)
 public class DelegateTest {
 
-    @Rule
-    public final DbResource dbResource = new DbResource();
+	@Inject
+	EmployeeDao dao;
 
-    private final EmployeeDao dao = new EmployeeDaoImpl();
+	@Inject
+	Config config;
 
-    @Test
-    public void testDelegate() throws Exception {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
+	@Inject
+	DbResource resource;
 
-        tm.required(() -> {
-            assertEquals(14, dao.count());
-        });
-    }
+	@Before
+	public void setUp() {
+		ObjectGraph.create(this).inject(this);
+		resource.before();
+	}
+
+	@After
+	public void tearDown() {
+		resource.after();
+	}
+
+	@Test
+	public void testDelegate() throws Exception {
+		TransactionManager tm = config.getTransactionManager();
+
+		tm.required(() -> {
+			assertEquals(14, dao.count());
+		});
+	}
 
 }

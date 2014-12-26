@@ -34,103 +34,104 @@ import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
-import examples.AppConfig;
+import examples.InjectConfig;
 import examples.domain.Salary;
 import examples.entity.Employee;
 import examples.entity.EmployeeDepartment;
 
-@Dao(config = AppConfig.class)
+@Dao
+@InjectConfig
 public interface EmployeeDao {
 
-    @Select
-    Employee selectById(Integer id);
+	@Select
+	Employee selectById(Integer id);
 
-    @Select
-    List<Employee> selectByAgeRange(Integer min, Integer max);
+	@Select
+	List<Employee> selectByAgeRange(Integer min, Integer max);
 
-    @Select
-    List<Employee> selectByAges(List<Integer> ages);
+	@Select
+	List<Employee> selectByAges(List<Integer> ages);
 
-    @Select
-    List<Employee> selectByName(String name);
+	@Select
+	List<Employee> selectByName(String name);
 
-    @Select
-    List<Employee> selectByNames(List<String> names);
+	@Select
+	List<Employee> selectByNames(List<String> names);
 
-    @Select
-    List<Employee> selectByNotEmptyName(String name);
+	@Select
+	List<Employee> selectByNotEmptyName(String name);
 
-    @Select
-    List<Employee> selectByNameWithPrefixMatching(String prefix);
+	@Select
+	List<Employee> selectByNameWithPrefixMatching(String prefix);
 
-    @Select
-    List<Employee> selectByNameWithSuffixMatching(String suffix);
+	@Select
+	List<Employee> selectByNameWithSuffixMatching(String suffix);
 
-    @Select
-    List<Employee> selectByNameWithInsideMatching(String inside);
+	@Select
+	List<Employee> selectByNameWithInsideMatching(String inside);
 
-    @Select
-    List<Employee> selectByHiredateRange(Timestamp from, Timestamp to);
+	@Select
+	List<Employee> selectByHiredateRange(Timestamp from, Timestamp to);
 
-    @Select
-    List<Employee> selectBySalary(Salary salary);
+	@Select
+	List<Employee> selectBySalary(Salary salary);
 
-    @Select
-    Salary selectSummedSalary();
+	@Select
+	Salary selectSummedSalary();
 
-    @Select
-    List<Employee> selectByExample(Employee e);
+	@Select
+	List<Employee> selectByExample(Employee e);
 
-    @Select
-    List<Employee> selectAll();
+	@Select
+	List<Employee> selectAll();
 
-    @Select
-    List<Employee> selectAll(SelectOptions options);
+	@Select
+	List<Employee> selectAll(SelectOptions options);
 
-    @Select(strategy = SelectType.STREAM)
-    <R> R selectByAge(int age, Function<Stream<Employee>, R> mapper);
+	@Select(strategy = SelectType.STREAM)
+	<R> R selectByAge(int age, Function<Stream<Employee>, R> mapper);
 
-    default int count() {
-        Config config = Config.get(this);
-        SelectBuilder builder = SelectBuilder.newInstance(config);
-        builder.sql("select count(*) from employee");
-        return builder.getScalarSingleResult(int.class);
-    }
+	default int count() {
+		Config config = Config.get(this);
+		SelectBuilder builder = SelectBuilder.newInstance(config);
+		builder.sql("select count(*) from employee");
+		return builder.getScalarSingleResult(int.class);
+	}
 
-    @Select
-    List<EmployeeDepartment> selectAllEmployeeDepartment();
+	@Select
+	List<EmployeeDepartment> selectAllEmployeeDepartment();
 
-    @Insert
-    int insert(Employee employee);
+	@Insert
+	int insert(Employee employee);
 
-    @Insert(sqlFile = true)
-    int insertWithSqlFile(Employee employee);
+	@Insert(sqlFile = true)
+	int insertWithSqlFile(Employee employee);
 
-    @Update
-    int update(Employee employee);
+	@Update
+	int update(Employee employee);
 
-    @Update(sqlFile = true)
-    int updateWithSqlFile(Employee employee);
+	@Update(sqlFile = true)
+	int updateWithSqlFile(Employee employee);
 
-    @Delete
-    int delete(Employee employee);
+	@Delete
+	int delete(Employee employee);
 
-    @Delete(sqlFile = true)
-    int deleteWithSqlFile(Employee employee);
+	@Delete(sqlFile = true)
+	int deleteWithSqlFile(Employee employee);
 
-    @BatchInsert
-    int[] batchInsert(List<Employee> employees);
+	@BatchInsert
+	int[] batchInsert(List<Employee> employees);
 
-    @BatchUpdate
-    int[] batchUpdate(List<Employee> employees);
+	@BatchUpdate
+	int[] batchUpdate(List<Employee> employees);
 
-    @BatchDelete
-    int[] batchDelete(List<Employee> employees);
+	@BatchDelete
+	int[] batchDelete(List<Employee> employees);
 
-    @Script
-    void create();
+	@Script
+	void create();
 
-    @Script
-    void drop();
+	@Script
+	void drop();
 
 }

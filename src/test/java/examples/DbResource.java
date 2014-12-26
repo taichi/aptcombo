@@ -15,34 +15,37 @@
  */
 package examples;
 
-import org.junit.rules.ExternalResource;
+import javax.inject.Inject;
+
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import examples.dao.EmployeeDao;
-import examples.dao.EmployeeDaoImpl;
 
 /**
  * @author nakamura-to
  *
  */
-public class DbResource extends ExternalResource {
+public class DbResource {
 
-    EmployeeDao dao = new EmployeeDaoImpl();
+	@Inject
+	Config config;
 
-    @Override
-    protected void before() throws Throwable {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
-        tm.required(() -> {
-            dao.create();
-        });
-    }
+	@Inject
+	EmployeeDao dao;
 
-    @Override
-    protected void after() {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
-        tm.required(() -> {
-            dao.drop();
-        });
-    }
+	protected void before() {
+		TransactionManager tm = config.getTransactionManager();
+		tm.required(() -> {
+			dao.create();
+		});
+	}
+
+	protected void after() {
+		TransactionManager tm = config.getTransactionManager();
+		tm.required(() -> {
+			dao.drop();
+		});
+	}
 
 }

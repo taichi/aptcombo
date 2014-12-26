@@ -1,37 +1,59 @@
 package examples;
 
-import org.junit.Rule;
+import javax.inject.Inject;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import dagger.Module;
+import dagger.ObjectGraph;
+import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
-import examples.dao.EmployeeDaoImpl;
 import examples.entity.Employee;
 
+@Module(injects = DeleteTest.class, includes = DaoModule.class)
 public class DeleteTest {
 
-    @Rule
-    public final DbResource dbResource = new DbResource();
+	@Inject
+	EmployeeDao dao;
 
-    private final EmployeeDao dao = new EmployeeDaoImpl();
+	@Inject
+	Config config;
 
-    @Test
-    public void testDelete() throws Exception {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
+	@Inject
+	DbResource resource;
 
-        tm.required(() -> {
-            Employee employee = dao.selectById(1);
-            dao.delete(employee);
-        });
-    }
+	@Before
+	public void setUp() {
+		ObjectGraph.create(this).inject(this);
+		resource.before();
+	}
 
-    @Test
-    public void testDeleteWithSqlFile() throws Exception {
-        TransactionManager tm = AppConfig.singleton().getTransactionManager();
+	@After
+	public void tearDown() {
+		resource.after();
+	}
 
-        tm.required(() -> {
-            Employee employee = dao.selectById(1);
-            dao.deleteWithSqlFile(employee);
-        });
-    }
+	@Test
+	public void testDelete() throws Exception {
+		TransactionManager tm = config.getTransactionManager();
+
+		tm.required(() -> {
+			Employee employee = dao.selectById(1);
+			dao.delete(employee);
+		});
+	}
+
+	@Test
+	public void testDeleteWithSqlFile() throws Exception {
+		TransactionManager tm = config.getTransactionManager();
+
+		tm.required(() -> {
+			Employee employee = dao.selectById(1);
+			dao.deleteWithSqlFile(employee);
+		});
+	}
 }
