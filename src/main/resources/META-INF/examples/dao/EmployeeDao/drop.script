@@ -1,0 +1,3 @@
+drop sequence employee_seq;
+drop table employee;
+drop table department;

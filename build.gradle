@@ -1,0 +1,100 @@
+apply plugin: 'java'
+
+repositories {
+	jcenter()
+	mavenCentral()
+}
+
+sourceCompatibility = targetCompatibility = 1.8
+processResources.destinationDir = compileJava.destinationDir
+compileJava.dependsOn processResources
+
+tasks.withType(AbstractCompile) each { it.options.encoding = "UTF-8" }
+
+test {
+	systemProperty("java.awt.headless", "true")
+}
+
+dependencies {
+	testCompile 'junit:junit:4.+'
+	testCompile 'org.jmockit:jmockit:1.+'
+	testCompile 'com.h2database:h2:1.+'
+}
+
+apply plugin: 'eclipse'
+
+if (!project.hasProperty('daggerVersion')) {
+	ext {
+		daggerVersion = "1.2.2"
+	}
+}
+
+if (!project.hasProperty('domaVersion')) {
+	ext {
+		domaVersion = "2.0.1"
+	}
+}
+
+ext {
+	aptDir='.generated'
+}
+
+configurations {
+	apt {
+		visible false
+	}
+}
+
+dependencies {
+	def doma = "org.seasar.doma:doma:${project.domaVersion}"
+	compile doma
+	apt doma
+	compile "com.squareup.dagger:dagger:${project.daggerVersion}"
+	apt "com.squareup.dagger:dagger-compiler:${project.daggerVersion}"
+}
+
+sourceSets {
+	main {
+		java {
+			compileClasspath += [ configurations.apt ]
+		}
+	}
+	test {
+		java {
+			compileClasspath += [ configurations.apt ]
+		}
+	}
+}
+
+eclipse {
+	classpath {
+		plusConfigurations += [ configurations.apt ]
+		containers = [
+			'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+		]
+	}
+	jdt.file.withProperties {
+		it.setProperty('org.eclipse.jdt.core.compiler.processAnnotations', 'enabled')
+	}
+}
+
+eclipseJdt {
+	doFirst {
+		def aptPrefs = file('.settings/org.eclipse.jdt.apt.core.prefs')
+		aptPrefs.parentFile.mkdirs()
+		aptPrefs.text = """\
+			eclipse.preferences.version=1
+			org.eclipse.jdt.apt.aptEnabled=true
+			org.eclipse.jdt.apt.genSrcDir=${relativePath(aptDir)}
+			org.eclipse.jdt.apt.reconcileEnabled=true
+		""".stripIndent()
+		file('.factorypath').withWriter {
+			new groovy.xml.MarkupBuilder(it).factorypath {
+				configurations.apt.files.each { dep ->
+					'factorypathentry' kind: 'EXTJAR', id: dep.absolutePath, enabled: true, runInBatchMode: false
+				}
+			}
+		}
+	}
+}
+
