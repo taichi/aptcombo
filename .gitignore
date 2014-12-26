@@ -11,3 +11,4 @@ gradle-app.setting
 *.factorypath
 *.generated
 /.apt_generated/
+/bin/

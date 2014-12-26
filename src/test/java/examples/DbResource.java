@@ -17,22 +17,48 @@ package examples;
 
 import javax.inject.Inject;
 
+import org.junit.rules.MethodRule;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import dagger.Module;
+import dagger.ObjectGraph;
+import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 
 /**
  * @author nakamura-to
  *
  */
-public class DbResource {
+@Module(injects = DbResource.class, includes = DaoModule.class)
+public class DbResource implements MethodRule {
 
 	@Inject
 	Config config;
 
 	@Inject
 	EmployeeDao dao;
+	
+	@Override
+	public Statement apply(Statement base, FrameworkMethod method, Object target) {
+		return new Statement() {
+			
+			@Override
+			public void evaluate() throws Throwable {
+				ObjectGraph og = ObjectGraph.create(target, DbResource.this);
+				og.inject(DbResource.this);
+				og.inject(target);
+				try {
+					before();
+					base.evaluate();
+				} finally {
+					after();
+				}
+			}
+		};
+	}
 
 	protected void before() {
 		TransactionManager tm = config.getTransactionManager();
