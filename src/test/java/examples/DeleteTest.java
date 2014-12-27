@@ -11,6 +11,10 @@ import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 import examples.entity.Employee;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = DeleteTest.class, includes = DaoModule.class)
 public class DeleteTest {
 

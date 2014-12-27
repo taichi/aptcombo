@@ -6,6 +6,9 @@ import dagger.Module;
 import dagger.Provides;
 import examples.AppConfig;
 
+/**
+ * @author taichi
+ */
 @Module(library = true, includes = AppConfig.class)
 public class DaoModule {
 

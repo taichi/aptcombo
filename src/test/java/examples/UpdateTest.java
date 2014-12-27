@@ -12,6 +12,10 @@ import examples.dao.EmployeeDao;
 import examples.entity.Employee;
 import examples.entity.JobType;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = UpdateTest.class, includes = DaoModule.class)
 public class UpdateTest {
 

@@ -14,6 +14,10 @@ import examples.dao.EmployeeDao;
 import examples.domain.Salary;
 import examples.entity.Employee;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = BatchUpdateTest.class, includes = DaoModule.class)
 public class BatchUpdateTest {
 

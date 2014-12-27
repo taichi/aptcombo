@@ -29,7 +29,7 @@ import examples.dao.EmployeeDao;
 
 /**
  * @author nakamura-to
- *
+ * @author taichi
  */
 @Module(injects = DbResource.class, includes = DaoModule.class)
 public class DbResource implements MethodRule {

@@ -28,6 +28,10 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(library = true)
 public class AppConfig implements Config {
 

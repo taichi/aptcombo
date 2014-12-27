@@ -15,6 +15,10 @@ import examples.domain.Salary;
 import examples.entity.Employee;
 import examples.entity.JobType;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = InsertTest.class, includes = DaoModule.class)
 public class InsertTest {
 

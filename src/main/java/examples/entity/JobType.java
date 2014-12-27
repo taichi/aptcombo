@@ -15,6 +15,9 @@
  */
 package examples.entity;
 
+/**
+ * @author nakamura-to
+ */
 public enum JobType {
-    SALESMAN, MANAGER, ANALYST, PRESIDENT, CLERK
+	SALESMAN, MANAGER, ANALYST, PRESIDENT, CLERK
 }

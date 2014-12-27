@@ -12,6 +12,10 @@ import dagger.Module;
 import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = DelegateTest.class, includes = DaoModule.class)
 public class DelegateTest {
 

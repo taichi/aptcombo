@@ -39,6 +39,10 @@ import examples.domain.Salary;
 import examples.entity.Employee;
 import examples.entity.EmployeeDepartment;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Dao
 @InjectConfig
 public interface EmployeeDao {

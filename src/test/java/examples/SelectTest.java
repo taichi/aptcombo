@@ -21,6 +21,10 @@ import examples.domain.Salary;
 import examples.entity.Employee;
 import examples.entity.EmployeeDepartment;
 
+/**
+ * @author nakamura-to
+ * @author taichi
+ */
 @Module(injects = SelectTest.class, includes = DaoModule.class)
 public class SelectTest {
 

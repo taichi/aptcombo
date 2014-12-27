@@ -29,6 +29,9 @@ import org.seasar.doma.Version;
 
 import examples.domain.Salary;
 
+/**
+ * @author nakamura-to
+ */
 @Entity(listener = EmployeeListener.class)
 public class Employee {
 
