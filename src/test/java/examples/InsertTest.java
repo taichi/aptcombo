@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -26,12 +25,10 @@ public class InsertTest {
 	EmployeeDao dao;
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Test
 	public void testInsert() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = new Employee();
 			employee.setName("test");
@@ -44,8 +41,6 @@ public class InsertTest {
 
 	@Test
 	public void testInsertWithSqlFile() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = new Employee();
 			employee.setId(100);

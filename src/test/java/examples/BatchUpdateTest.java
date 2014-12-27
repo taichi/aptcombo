@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -25,12 +24,10 @@ public class BatchUpdateTest {
 	EmployeeDao dao;
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Test
 	public void testBatchUpdate() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			List<Employee> list = dao.selectAll();
 			for (Employee employee : list) {

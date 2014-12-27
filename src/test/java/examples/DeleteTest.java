@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -22,12 +21,10 @@ public class DeleteTest {
 	EmployeeDao dao;
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Test
 	public void testDelete() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = dao.selectById(1);
 			dao.delete(employee);
@@ -36,8 +33,6 @@ public class DeleteTest {
 
 	@Test
 	public void testDeleteWithSqlFile() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = dao.selectById(1);
 			dao.deleteWithSqlFile(employee);

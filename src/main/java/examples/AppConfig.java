@@ -55,6 +55,7 @@ public class AppConfig implements Config {
 		return dataSource;
 	}
 
+	@Provides
 	@Override
 	public TransactionManager getTransactionManager() {
 		return transactionManager;

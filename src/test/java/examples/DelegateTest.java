@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -23,12 +22,10 @@ public class DelegateTest {
 	EmployeeDao dao;
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Test
 	public void testDelegate() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			assertEquals(14, dao.count());
 		});

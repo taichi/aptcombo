@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -23,12 +22,10 @@ public class UpdateTest {
 	EmployeeDao dao;
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Test
 	public void testUpdate() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = dao.selectById(1);
 			employee.setName("hoge");
@@ -39,8 +36,6 @@ public class UpdateTest {
 
 	@Test
 	public void testUpdateWithSqlFile() throws Exception {
-		TransactionManager tm = config.getTransactionManager();
-
 		tm.required(() -> {
 			Employee employee = dao.selectById(1);
 			employee.setName("hoge");

@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
@@ -36,15 +35,15 @@ import examples.dao.EmployeeDao;
 public class DbResource implements MethodRule {
 
 	@Inject
-	Config config;
+	TransactionManager tm;
 
 	@Inject
 	EmployeeDao dao;
-	
+
 	@Override
 	public Statement apply(Statement base, FrameworkMethod method, Object target) {
 		return new Statement() {
-			
+
 			@Override
 			public void evaluate() throws Throwable {
 				ObjectGraph og = ObjectGraph.create(target, DbResource.this);
@@ -61,14 +60,12 @@ public class DbResource implements MethodRule {
 	}
 
 	protected void before() {
-		TransactionManager tm = config.getTransactionManager();
 		tm.required(() -> {
 			dao.create();
 		});
 	}
 
 	protected void after() {
-		TransactionManager tm = config.getTransactionManager();
 		tm.required(() -> {
 			dao.drop();
 		});
