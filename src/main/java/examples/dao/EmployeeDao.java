@@ -34,7 +34,7 @@ import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
-import examples.InjectConfig;
+import examples.Injectable;
 import examples.domain.Salary;
 import examples.entity.Employee;
 import examples.entity.EmployeeDepartment;
@@ -44,7 +44,7 @@ import examples.entity.EmployeeDepartment;
  * @author taichi
  */
 @Dao
-@InjectConfig
+@Injectable
 public interface EmployeeDao {
 
 	@Select

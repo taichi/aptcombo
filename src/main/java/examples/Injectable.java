@@ -10,5 +10,5 @@ import org.seasar.doma.AnnotationTarget;
  * @author taichi
  */
 @AnnotateWith(annotations = @Annotation(target = AnnotationTarget.CONSTRUCTOR, type = Inject.class))
-public @interface InjectConfig {
+public @interface Injectable {
 }
