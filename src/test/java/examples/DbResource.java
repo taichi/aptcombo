@@ -50,25 +50,12 @@ public class DbResource implements MethodRule {
 				og.inject(DbResource.this);
 				og.inject(target);
 				try {
-					before();
+					tm.required(dao::create);
 					base.evaluate();
 				} finally {
-					after();
+					tm.required(dao::drop);
 				}
 			}
 		};
 	}
-
-	protected void before() {
-		tm.required(() -> {
-			dao.create();
-		});
-	}
-
-	protected void after() {
-		tm.required(() -> {
-			dao.drop();
-		});
-	}
-
 }
