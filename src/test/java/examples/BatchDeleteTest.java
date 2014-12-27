@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
-import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 import examples.entity.Employee;
 
@@ -17,7 +16,7 @@ import examples.entity.Employee;
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = BatchDeleteTest.class, includes = DaoModule.class)
+@Module(injects = BatchDeleteTest.class, includes = DbResource.class)
 public class BatchDeleteTest {
 
 	@Rule

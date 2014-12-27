@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
-import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 import examples.domain.Salary;
 import examples.entity.Employee;
@@ -18,7 +17,7 @@ import examples.entity.Employee;
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = BatchUpdateTest.class, includes = DaoModule.class)
+@Module(injects = BatchUpdateTest.class, includes = DbResource.class)
 public class BatchUpdateTest {
 
 	@Rule

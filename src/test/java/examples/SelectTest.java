@@ -15,7 +15,6 @@ import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
-import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 import examples.domain.Salary;
 import examples.entity.Employee;
@@ -25,7 +24,7 @@ import examples.entity.EmployeeDepartment;
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = SelectTest.class, includes = DaoModule.class)
+@Module(injects = SelectTest.class, includes = DbResource.class)
 public class SelectTest {
 
 	@Rule

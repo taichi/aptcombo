@@ -9,14 +9,13 @@ import org.junit.Test;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
-import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 
 /**
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = DelegateTest.class, includes = DaoModule.class)
+@Module(injects = DelegateTest.class, includes = DbResource.class)
 public class DelegateTest {
 
 	@Rule
