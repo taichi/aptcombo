@@ -31,7 +31,8 @@ import examples.dao.EmployeeDao;
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = DbResource.class, includes = DaoModule.class)
+@Module(injects = DbResource.class, includes = { TestDataSourceModule.class,
+		DaoModule.class })
 public class DbResource implements MethodRule {
 
 	@Inject

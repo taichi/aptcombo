@@ -15,7 +15,7 @@
  */
 package examples;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import org.seasar.doma.jdbc.Config;
@@ -25,14 +25,10 @@ import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import dagger.Module;
-import dagger.Provides;
-
 /**
  * @author nakamura-to
  * @author taichi
  */
-@Module(library = true)
 public class AppConfig implements Config {
 
 	private final Dialect dialect;
@@ -41,10 +37,10 @@ public class AppConfig implements Config {
 
 	private final TransactionManager transactionManager;
 
-	public AppConfig() {
+	@Inject
+	public AppConfig(DataSource ds) {
 		dialect = new H2Dialect();
-		dataSource = new LocalTransactionDataSource(
-				"jdbc:h2:mem:tutorial;DB_CLOSE_DELAY=-1", "sa", null);
+		dataSource = new LocalTransactionDataSource(ds);
 		transactionManager = new LocalTransactionManager(
 				dataSource.getLocalTransaction(getJdbcLogger()));
 	}
@@ -59,16 +55,9 @@ public class AppConfig implements Config {
 		return dataSource;
 	}
 
-	@Provides
 	@Override
 	public TransactionManager getTransactionManager() {
 		return transactionManager;
-	}
-
-	@Provides
-	@Singleton
-	public Config config() {
-		return this;
 	}
 
 }
