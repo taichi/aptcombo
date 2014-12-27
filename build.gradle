@@ -16,6 +16,8 @@ test {
 }
 
 dependencies {
+	compile 'ch.qos.logback:logback-classic:1.1.2'
+	compile 'com.zaxxer:HikariCP:2.2.5'
 	testCompile 'junit:junit:4.+'
 	testCompile 'org.jmockit:jmockit:1.+'
 	testCompile 'com.h2database:h2:1.+'
