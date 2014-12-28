@@ -15,23 +15,18 @@
  */
 package examples.domain;
 
+import lombok.Data;
+
 import org.seasar.doma.Domain;
 
 /**
  * @author nakamura-to
  */
 @Domain(valueType = Integer.class)
+@Data
 public class Salary {
 
 	private final Integer value;
-
-	public Salary(Integer value) {
-		this.value = value;
-	}
-
-	public Integer getValue() {
-		return value;
-	}
 
 	public Salary add(Salary salary) {
 		if (salary == null) {
@@ -41,41 +36,6 @@ public class Salary {
 			return new Salary(null);
 		}
 		return new Salary(this.value + salary.value);
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Salary other = (Salary) obj;
-		if (value == null) {
-			if (other.value != null) {
-				return false;
-			}
-		} else if (!value.equals(other.value)) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return value != null ? String.valueOf(value) : null;
 	}
 
 }

@@ -18,6 +18,11 @@ package examples.entity;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
@@ -33,6 +38,7 @@ import examples.domain.Salary;
  * @author nakamura-to
  */
 @Entity(listener = EmployeeListener.class)
+@Data
 public class Employee {
 
 	@Id
@@ -63,95 +69,8 @@ public class Employee {
 	Timestamp updateTimestamp;
 
 	@OriginalStates
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	Employee originalStates;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public Salary getSalary() {
-		return salary;
-	}
-
-	public void setSalary(Salary salary) {
-		this.salary = salary;
-	}
-
-	public JobType getJobType() {
-		return jobType;
-	}
-
-	public void setJobType(JobType jobType) {
-		this.jobType = jobType;
-	}
-
-	public Date getHiredate() {
-		return hiredate;
-	}
-
-	public void setHiredate(Date hiredate) {
-		this.hiredate = hiredate;
-	}
-
-	public Integer getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(Integer departmentId) {
-		this.departmentId = departmentId;
-	}
-
-	public Timestamp getInsertTimestamp() {
-		return insertTimestamp;
-	}
-
-	public void setInsertTimestamp(Timestamp insertTimestamp) {
-		this.insertTimestamp = insertTimestamp;
-	}
-
-	public Timestamp getUpdateTimestamp() {
-		return updateTimestamp;
-	}
-
-	public void setUpdateTimestamp(Timestamp updateTimestamp) {
-		this.updateTimestamp = updateTimestamp;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [departmentId=" + departmentId + ", hiredate="
-				+ hiredate + ", id=" + id + ", jobType=" + jobType + ", name="
-				+ name + ", salary=" + salary + ", version=" + version
-				+ ", insertTimestamp=" + insertTimestamp + ", updateTimestamp="
-				+ updateTimestamp + "]";
-	}
 
 }

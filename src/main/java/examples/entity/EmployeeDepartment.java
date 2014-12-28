@@ -15,6 +15,9 @@
  */
 package examples.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 
@@ -25,14 +28,8 @@ import org.seasar.doma.Entity;
 public class EmployeeDepartment extends Employee {
 
 	@Column(name = "DEPARTMENT_NAME")
+	@Getter
+	@Setter
 	String departmentName;
-
-	public String getDepartmentName() {
-		return departmentName;
-	}
-
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
 
 }
