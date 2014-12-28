@@ -70,9 +70,10 @@ sourceSets {
 }
 
 task delombok {
-	// lombok outputs class file directory.
+	// lombok outputs .class file to directory.
 	// but some of other Annotation Processors need that source codes.
 	// so delombok make it.
+	// see. http://projectlombok.org/features/delombok.html
 	ant.taskdef(
 		name: 'delombok', 
 		classname: 'lombok.delombok.ant.DelombokTask', 
