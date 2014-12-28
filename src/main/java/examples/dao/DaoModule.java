@@ -45,7 +45,7 @@ public class DaoModule {
 	@Singleton
 	public EmployeeDao employee(examples.dao.EmployeeDaoImpl dao) {
 		// daggerはaptの実行順序によって存在しないものを対象としてしまった場合、
-		// メソッドに宣言されている型だけで何とかしようとするので、引数にFQDNを書いておく。
+		// メソッドに宣言されている型だけで何とかしようとするので、引数にFQNを書いておく。
 		// see. dagger.internal.codegen
 		// ModuleAdapterProcessor.generateProvidesAdapter
 		// GeneratorKeys.get(VariableElement)
