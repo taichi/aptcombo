@@ -48,12 +48,12 @@ configurations {
 }
 
 dependencies {
-	compile 'org.projectlombok:lombok:1.14.8'
 	def doma = "org.seasar.doma:doma:${project.domaVersion}"
 	compile doma
 	apt doma
 	compile "com.squareup.dagger:dagger:${project.daggerVersion}"
 	apt "com.squareup.dagger:dagger-compiler:${project.daggerVersion}"
+	apt 'org.projectlombok:lombok:1.14.8'
 }
 
 sourceSets {
@@ -76,10 +76,10 @@ task delombok {
 	ant.taskdef(
 		name: 'delombok', 
 		classname: 'lombok.delombok.ant.DelombokTask', 
-		classpath: configurations.compile.asPath)
+		classpath: configurations.apt.asPath)
 	doLast {
 		ant.delombok(encoding: 'UTF-8', 
-			classpath: configurations.compile.asPath,
+			classpath: sourceSets.main.compileClasspath.asPath,
 			//verbose: true,
 			to: temporaryDir
 		) {
