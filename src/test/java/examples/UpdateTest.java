@@ -8,7 +8,6 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import dagger.Module;
 import examples.dao.EmployeeDao;
-import examples.entity.Employee;
 import examples.entity.JobType;
 
 /**
@@ -30,20 +29,16 @@ public class UpdateTest {
 	@Test
 	public void testUpdate() throws Exception {
 		tm.required(() -> {
-			Employee employee = dao.selectById(1);
-			employee.setName("hoge");
-			employee.setJobType(JobType.PRESIDENT);
-			dao.update(employee);
+			dao.update(dao.selectById(1).setName("hoge")
+					.setJobType(JobType.PRESIDENT));
 		});
 	}
 
 	@Test
 	public void testUpdateWithSqlFile() throws Exception {
 		tm.required(() -> {
-			Employee employee = dao.selectById(1);
-			employee.setName("hoge");
-			employee.setJobType(JobType.PRESIDENT);
-			dao.updateWithSqlFile(employee);
+			dao.updateWithSqlFile(dao.selectById(1).setName("hoge")
+					.setJobType(JobType.PRESIDENT));
 		});
 	}
 }

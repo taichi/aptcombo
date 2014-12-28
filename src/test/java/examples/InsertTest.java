@@ -34,10 +34,8 @@ public class InsertTest {
 	public void testInsert() throws Exception {
 		tm.required(() -> {
 			Employee employee = new Employee();
-			employee.setName("test");
-			employee.setAge(50);
-			employee.setSalary(new Salary(300));
-			employee.setJobType(JobType.PRESIDENT);
+			employee.setName("test").setAge(50).setSalary(new Salary(300))
+					.setJobType(JobType.PRESIDENT);
 			dao.insert(employee);
 		});
 	}
@@ -46,14 +44,14 @@ public class InsertTest {
 	public void testInsertWithSqlFile() throws Exception {
 		tm.required(() -> {
 			Employee employee = new Employee();
-			employee.setId(100);
-			employee.setName("test");
-			employee.setAge(50);
-			employee.setSalary(new Salary(300));
-			employee.setJobType(JobType.PRESIDENT);
-			employee.setInsertTimestamp(new Timestamp(System
-					.currentTimeMillis()));
-			employee.setVersion(1);
+			employee.setId(100)
+					.setName("test")
+					.setAge(50)
+					.setSalary(new Salary(300))
+					.setJobType(JobType.PRESIDENT)
+					.setInsertTimestamp(
+							new Timestamp(System.currentTimeMillis()))
+					.setVersion(1);
 			dao.insertWithSqlFile(employee);
 		});
 	}
