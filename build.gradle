@@ -48,6 +48,7 @@ configurations {
 }
 
 dependencies {
+	compile 'org.projectlombok:lombok:1.14.8'
 	def doma = "org.seasar.doma:doma:${project.domaVersion}"
 	compile doma
 	apt doma
@@ -65,6 +66,41 @@ sourceSets {
 		java {
 			compileClasspath += [ configurations.apt ]
 		}
+	}
+}
+
+task delombok {
+	// lombok outputs class file directory.
+	// but some of other Annotation Processors need that source codes.
+	// so delombok make it.
+	ant.taskdef(
+		name: 'delombok', 
+		classname: 'lombok.delombok.ant.DelombokTask', 
+		classpath: configurations.compile.asPath)
+	doLast {
+		ant.delombok(encoding: 'UTF-8', 
+			classpath: configurations.compile.asPath,
+			//verbose: true,
+			to: temporaryDir
+		) {
+			compileJava.source.matching {
+				exclude '**/*Module.java'
+			}.addToAntBuilder(ant, 'fileset', FileCollection.AntType.FileSet)
+		}
+	}
+}
+
+compileJava {
+	dependsOn delombok
+	doFirst {
+		def delomboked = fileTree(dir: delombok.temporaryDir);
+		def relativized = delomboked.collect {
+			delombok.temporaryDir.toPath().relativize(it.toPath())
+		}
+		source = source.filter { src ->
+			relativized.any { src.toPath().endsWith(it) } == false
+		}
+		source += delomboked
 	}
 }
 
