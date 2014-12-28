@@ -15,7 +15,7 @@
  */
 package examples.domain;
 
-import lombok.Data;
+import lombok.Value;
 
 import org.seasar.doma.Domain;
 
@@ -23,7 +23,7 @@ import org.seasar.doma.Domain;
  * @author nakamura-to
  */
 @Domain(valueType = Integer.class)
-@Data
+@Value
 public class Salary {
 
 	private final Integer value;
