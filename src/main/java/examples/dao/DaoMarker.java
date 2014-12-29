@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package examples;
+package examples.dao;
 
-import javax.inject.Inject;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import org.seasar.doma.AnnotateWith;
 import org.seasar.doma.Annotation;
@@ -24,6 +25,7 @@ import org.seasar.doma.AnnotationTarget;
 /**
  * @author taichi
  */
-@AnnotateWith(annotations = @Annotation(target = AnnotationTarget.CONSTRUCTOR, type = Inject.class))
-public @interface Injectable {
+@AnnotateWith(annotations = @Annotation(target = AnnotationTarget.CONSTRUCTOR, type = DaoMarker.class))
+@Retention(RetentionPolicy.SOURCE)
+public @interface DaoMarker {
 }
