@@ -13,8 +13,6 @@ repositories {
 }
 
 sourceCompatibility = targetCompatibility = 1.8
-processResources.destinationDir = compileJava.destinationDir
-compileJava.dependsOn processResources
 
 tasks.withType(AbstractCompile)*.options*.encoding = "UTF-8"
 
@@ -40,17 +38,7 @@ if (!project.hasProperty('daggerVersion')) {
 
 if (!project.hasProperty('domaVersion')) {
 	ext {
-		domaVersion = "2.0.1"
-	}
-}
-
-ext {
-	aptDir='.generated'
-}
-
-configurations {
-	apt {
-		visible false
+		domaVersion = "2.5.1"
 	}
 }
 
@@ -58,11 +46,19 @@ dependencies {
 	def doma = "org.seasar.doma:doma:${project.domaVersion}"
 	compile doma
 	apt doma
+	
 	compile "com.squareup.dagger:dagger:${project.daggerVersion}"
-	apt "com.squareup.dagger:dagger-compiler:${project.daggerVersion}"
-	apt 'org.projectlombok:lombok:1.14.8'
+	def dc = "com.squareup.dagger:dagger-compiler:${project.daggerVersion}"
+	apt dc
+	testApt dc
+	
+	def lombok = 'org.projectlombok:lombok:1.16.6'
+	apt lombok
+	compileOnly lombok
 }
 
+processResources.destinationDir = compileJava.destinationDir
+compileJava.dependsOn processResources
 
 task delombok {
 	// lombok outputs .class file to directory.
@@ -71,7 +67,7 @@ task delombok {
 	// see. http://projectlombok.org/features/delombok.html
 	ant.taskdef(
 		name: 'delombok', 
-		classname: 'lombok.delombok.ant.DelombokTask', 
+		classname: 'lombok.delombok.ant.Tasks$Delombok', 
 		classpath: configurations.apt.asPath)
 	doLast {
 		ant.delombok(encoding: 'UTF-8', 
