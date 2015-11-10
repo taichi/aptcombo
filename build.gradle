@@ -5,6 +5,9 @@ plugins {
 }
 
 repositories {
+	maven {
+		url "https://maven-central.storage.googleapis.com"
+	}
 	jcenter()
 	mavenCentral()
 }
