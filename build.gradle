@@ -32,7 +32,7 @@ dependencies {
 
 if (!project.hasProperty('daggerVersion')) {
 	ext {
-		daggerVersion = "2.0.1"
+		daggerVersion = "2.0.2"
 	}
 }
 
