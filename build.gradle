@@ -32,7 +32,7 @@ dependencies {
 
 if (!project.hasProperty('daggerVersion')) {
 	ext {
-		daggerVersion = "1.2.2"
+		daggerVersion = "2.0.1"
 	}
 }
 
@@ -47,8 +47,8 @@ dependencies {
 	compile doma
 	apt doma
 	
-	compile "com.squareup.dagger:dagger:${project.daggerVersion}"
-	def dc = "com.squareup.dagger:dagger-compiler:${project.daggerVersion}"
+	compile "com.google.dagger:dagger:${project.daggerVersion}"
+	def dc = "com.google.dagger:dagger-compiler:${project.daggerVersion}"
 	apt dc
 	testApt dc
 	

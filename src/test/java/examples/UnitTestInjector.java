@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 SATO taichi
+ * Copyright 2015 SATO taichi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,36 @@
 package examples;
 
 import javax.inject.Singleton;
-import javax.sql.DataSource;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import dagger.Module;
-import dagger.Provides;
+import dagger.Component;
+import examples.dao.DaoModule;
 
 /**
  * @author taichi
  */
-@Module
-public class DataSourceModule {
+@Singleton
+@Component(modules = { TestDataSourceModule.class, DaoModule.class })
+public interface UnitTestInjector {
 
-	@Provides
-	public HikariConfig config() {
-		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl("jdbc:h2:mem:tutorial;DB_CLOSE_DELAY=-1");
-		config.setUsername("sa");
-		return config;
-	}
+	DbResource resource();
+	
+	void inject(BatchDeleteTest test);
 
-	@Provides
-	@Singleton
-	public DataSource dataSource(HikariConfig config) {
-		return new HikariDataSource(config);
+	void inject(BatchInsertTest test);
+
+	void inject(BatchUpdateTest test);
+
+	void inject(DelegateTest test);
+
+	void inject(DeleteTest test);
+
+	void inject(InsertTest test);
+
+	void inject(SelectTest test);
+
+	void inject(UpdateTest test);
+
+	static UnitTestInjector create() {
+		return DaggerUnitTestInjector.create();
 	}
 }

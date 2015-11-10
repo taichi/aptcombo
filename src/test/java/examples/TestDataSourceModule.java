@@ -26,7 +26,7 @@ import dagger.Provides;
 /**
  * @author taichi
  */
-@Module(library = true)
+@Module
 public class TestDataSourceModule {
 
 	@Provides

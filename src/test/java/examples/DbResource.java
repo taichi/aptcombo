@@ -22,24 +22,23 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import dagger.Module;
-import dagger.ObjectGraph;
-import examples.dao.DaoModule;
 import examples.dao.EmployeeDao;
 
 /**
  * @author nakamura-to
  * @author taichi
  */
-@Module(injects = DbResource.class, includes = { TestDataSourceModule.class,
-		DaoModule.class })
 public class DbResource implements MethodRule {
-
-	@Inject
+	
 	TransactionManager tm;
 
-	@Inject
 	EmployeeDao dao;
+	
+	@Inject
+	public DbResource(TransactionManager tm, EmployeeDao dao) {
+		this.tm = tm;
+		this.dao = dao;
+	}
 
 	@Override
 	public Statement apply(Statement base, FrameworkMethod method, Object target) {
@@ -47,9 +46,6 @@ public class DbResource implements MethodRule {
 
 			@Override
 			public void evaluate() throws Throwable {
-				ObjectGraph og = ObjectGraph.create(target, DbResource.this);
-				og.inject(DbResource.this);
-				og.inject(target);
 				try {
 					tm.required(dao::create);
 					base.evaluate();

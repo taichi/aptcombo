@@ -27,22 +27,21 @@ import examples.AppConfig;
 /**
  * @author taichi
  */
-@Module(library = true, complete = false)
+@Module
 public class DaoModule {
-
+	
 	@Provides
 	@Singleton
 	public Config config(AppConfig config) {
 		return config;
 	}
-
+	
 	@Provides
 	public TransactionManager tm(Config config) {
 		return config.getTransactionManager();
 	}
-
+	
 	@Provides
-	@Singleton
 	public EmployeeDao employee(Config config) {
 		return new EmployeeDaoImpl(config);
 	}
