@@ -1,4 +1,8 @@
-apply plugin: 'java'
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'net.ltgt.apt' version '0.4'
+}
 
 repositories {
 	jcenter()
@@ -9,7 +13,7 @@ sourceCompatibility = targetCompatibility = 1.8
 processResources.destinationDir = compileJava.destinationDir
 compileJava.dependsOn processResources
 
-tasks.withType(AbstractCompile) each { it.options.encoding = "UTF-8" }
+tasks.withType(AbstractCompile)*.options*.encoding = "UTF-8"
 
 test {
 	systemProperty("java.awt.headless", "true")
@@ -23,7 +27,7 @@ dependencies {
 	testCompile 'com.h2database:h2:1.+'
 }
 
-apply plugin: 'eclipse'
+
 
 if (!project.hasProperty('daggerVersion')) {
 	ext {
@@ -56,18 +60,6 @@ dependencies {
 	apt 'org.projectlombok:lombok:1.14.8'
 }
 
-sourceSets {
-	main {
-		java {
-			compileClasspath += [ configurations.apt ]
-		}
-	}
-	test {
-		java {
-			compileClasspath += [ configurations.apt ]
-		}
-	}
-}
 
 task delombok {
 	// lombok outputs .class file to directory.
@@ -107,33 +99,8 @@ compileJava {
 
 eclipse {
 	classpath {
-		plusConfigurations += [ configurations.apt ]
 		containers = [
 			'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
 		]
 	}
-	jdt.file.withProperties {
-		it.setProperty('org.eclipse.jdt.core.compiler.processAnnotations', 'enabled')
-	}
 }
-
-eclipseJdt {
-	doFirst {
-		def aptPrefs = file('.settings/org.eclipse.jdt.apt.core.prefs')
-		aptPrefs.parentFile.mkdirs()
-		aptPrefs.text = """\
-			eclipse.preferences.version=1
-			org.eclipse.jdt.apt.aptEnabled=true
-			org.eclipse.jdt.apt.genSrcDir=${relativePath(aptDir)}
-			org.eclipse.jdt.apt.reconcileEnabled=true
-		""".stripIndent()
-		file('.factorypath').withWriter {
-			new groovy.xml.MarkupBuilder(it).factorypath {
-				configurations.apt.files.each { dep ->
-					'factorypathentry' kind: 'EXTJAR', id: dep.absolutePath, enabled: true, runInBatchMode: false
-				}
-			}
-		}
-	}
-}
-
