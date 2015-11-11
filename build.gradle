@@ -28,27 +28,14 @@ dependencies {
 	testCompile 'com.h2database:h2:1.+'
 }
 
-
-
-if (!project.hasProperty('daggerVersion')) {
-	ext {
-		daggerVersion = "2.0.2"
-	}
-}
-
-if (!project.hasProperty('domaVersion')) {
-	ext {
-		domaVersion = "2.5.1"
-	}
-}
-
 dependencies {
-	def doma = "org.seasar.doma:doma:${project.domaVersion}"
+	def doma = "org.seasar.doma:doma:2.5.1"
 	compile doma
 	apt doma
 	
-	compile "com.google.dagger:dagger:${project.daggerVersion}"
-	def dc = "com.google.dagger:dagger-compiler:${project.daggerVersion}"
+	def dv = "2.0.2"
+	compile "com.google.dagger:dagger:$dv"
+	def dc = "com.google.dagger:dagger-compiler:$dv"
 	apt dc
 	testApt dc
 	
