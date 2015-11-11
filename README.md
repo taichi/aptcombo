@@ -3,7 +3,7 @@
 This repository uses following Libraries.
 
 * Doma2
-* Dagger
+* Dagger2
 * Lombok
 * JUnit4
 * Gradle 
